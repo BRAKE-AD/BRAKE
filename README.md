@@ -12,16 +12,17 @@ Bottlenecked, Robust and Adaptable Knowledge of road Events: framework  for expl
 - [Collaborations](#collaborations)
 - [Report](#report)
 - [Acknowledgments](#acknowledgments)
+- [References](#references)
 
 
 ---
 ## Introduction
 Autonomous driving has made major advances thanks to deep learning, but most end-to-end models remain black boxes, limiting trust, safety, and adoption.
 
-BRAKE (Bottlenecked, Robust and Adaptable Knowledge of road Events) tackles this by offering an explainable-by-design framework that replaces text-based concepts and CLIP (used in DCG) with:
-- Structured ROAD events for clearer and more reliable concept supervision,
-- 3D-RetinaNet as concept encoder for robustness,
-- Cross-dataset transfer learning from ROAD to comma2k19.
+BRAKE (Bottlenecked, Robust and Adaptable Knowledge of road Events) tackles this by offering an explainable-by-design framework that replaces text-based concepts and [CLIP](#references) (used in [DCG](#references)) with:
+- Structured [ROAD](#references) events for clearer and more reliable concept supervision,
+- [3D-RetinaNet](#references) as concept encoder for robustness,
+- Cross-dataset transfer learning from ROAD to [Comma2k19](#references).
 
 This design enhances interpretability, robustness, and generalization, paving the way for more transparent and trustworthy autonomous driving systems.
 
@@ -50,29 +51,29 @@ We leverage the **Comma2k19** dataset, which captures diverse commuting scenario
 BRAKE is a **Concept Bottleneck Model (CBM)** that maps raw sensory input to driving predictions via interpretable intermediate concepts, enhancing transparency and robustness.
 
 The framework consists of:
-- **Concept Bottleneck**: 3D-RetinaNet pretrained on ROAD for detecting structured road events.
+- **Concept Bottleneck**: [3D-RetinaNet](#references) pretrained on [ROAD](#references) for detecting structured road events.
 - **Temporal Encoder**: Longformer-based module capturing sequential dependencies; a [CLS] token summarizes the sequence.
 - **Prediction Head**: MLP with GELU, dropout, and normalization predicts steering angle and vehicle distance; training uses RMSE loss with masking for uninformative targets.
 
 **Cross-Dataset Transfer Learning**:
-- Concept detector trained on ROAD, then transferred to Comma2k19.
+- Concept detector trained on [ROAD](#references), then transferred to [Comma2k19](#references).
 - Horizontal flipping aligns left-hand (ROAD) and right-hand (Comma2k19) driving domains.
 
 ### Architecture Overview
 
 Below is a schematic representation of the BRAKE framework:
-![BRAKE_Architecture](./architecture.jpg)
+![BRAKE_Architecture](./architecture.jpeg)
 
 ## Training and Testing
 
-The BRAKE framework can be trained on the Comma2k19 dataset using the scripts in the `sh_scripts` folder. Below is a representative example for training the model on the steering angle prediction task:
+The BRAKE framework can be trained on the [Comma2k19](#references) dataset using the scripts in the `sh_scripts` folder. Below is a representative example for training the model on the steering angle prediction task:
 
 ```bash
 !python3 main.py -dataset comma -backbone none -concept_features -ground_truth normal -train -gpu_num 1 -max_epochs 100 -task angle -bs 2 -concept_source retinanet -train_concepts -seed 42
 ```
 
 ### Explanation of the command parameters:
-- `-dataset comma` : specifies the Comma2k19 dataset as input.
+- `-dataset comma` : specifies the [Comma2k19](#references) dataset as input.
 - `-backbone none` : no additional backbone CNN is used; the model relies on concept features.
 - `-concept_features` : enables the use of concept embeddings.
 - `-ground_truth normal` : uses standard ground-truth values for supervision.
@@ -80,7 +81,7 @@ The BRAKE framework can be trained on the Comma2k19 dataset using the scripts in
 - `-max_epochs 100` : sets the maximum number of training epochs to 100.
 - `-task angle` : defines the task as steering angle prediction; can be `distance` or `multitask` as well.
 - `-bs 2` : sets the batch size to 2.
-- `-concept_source retinanet` : indicates that concepts are extracted via the 3D-RetinaNet module; can be `clip` as well.
+- `-concept_source retinanet` : indicates that concepts are extracted via the [3D-RetinaNet](#references) module; can be `CLIP` as well.
 - `-train_concepts` : enables the training of concept embeddings along with the main task.
 
 - `-time_horizon` : sets the prediction horizon, i.e., the number of consecutive future steps the model predicts at each time step. This allows the model to perform autoregressive multi-step prediction, useful for capturing temporal dependencies in driving sequences. Used in testing only.
@@ -92,9 +93,9 @@ Other tasks such as distance prediction or multitask training (angle + distance)
 
 ## Results and Outputs
 
-The performance of BRAKE is evaluated on the downstream tasks of **steering angle** and **leading vehicle distance** prediction. Accuracy is quantified using the **Mean Absolute Error (MAE)** over experiments conducted with three different random seeds (42, 123, 2025). Comparisons with a CLIP-based concept encoder show that BRAKE, leveraging 3D-RetinaNet and structured visual concepts from ROAD, achieves superior performance on single-task predictions and comparable results on multitask predictions.
+The performance of BRAKE is evaluated on the downstream tasks of **steering angle** and **leading vehicle distance** prediction. Accuracy is quantified using the **Mean Absolute Error (MAE)** over experiments conducted with three different random seeds (42, 123, 2025). Comparisons with a [CLIP](#references)-based concept encoder show that BRAKE, leveraging [3D-RetinaNet](#references) and structured visual concepts from [ROAD](#references), achieves superior performance on single-task predictions and comparable results on multitask predictions.
 
-To assess robustness, Gaussian noise is added to input frames. Metrics such as **Jaccard Index** and **Rank-Biased Overlap (RBO)** are computed for top-k concepts (k=3,5,7), demonstrating that 3D-RetinaNet maintains higher stability and alignment under noisy conditions compared to CLIP.
+To assess robustness, Gaussian noise is added to input frames. Metrics such as **Jaccard Index** and **Rank-Biased Overlap (RBO)** are computed for top-k concepts (k=3,5,7), demonstrating that [3D-RetinaNet](#references) maintains higher stability and alignment under noisy conditions compared to [CLIP](#references).
 
 ### Available Analysis Scripts
 
@@ -118,4 +119,16 @@ For a detailed explanation of the methodology, experiments, results, and conclus
 
 ## Acknowledgments
 
-We would like to express our gratitude to the creators of the **Comma2k19** and **ROAD** datasets for providing high-quality data that made this research possible. We also thank the developers of the **DCG** framework for inspiring and guiding the design of BRAKE.
+We would like to express our gratitude to the creators of the **[Comma2k19](#references)** and **[ROAD](#references)** datasets for providing high-quality data that made this research possible. We also thank the developers of the **[DCG](#references)** framework for inspiring and guiding the design of BRAKE.
+
+## References
+
+The following references correspond to the datasets and models used or mentioned in this project:
+
+- **DCG (Driving through the Concept Gridlock)**: Echterhoff et al., "Driving through the concept gridlock: Unraveling explainability bottlenecks in automated driving," Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV), pp. 7346–7355, January 2024.
+
+- **ROAD Dataset**: Singh et al., "ROAD: The ROAD event awareness dataset for autonomous driving," IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 45, no. 1, pp. 1036–1054, 2022.
+
+- **Comma2k19 Dataset**: Schafer et al., "A commute in data: The comma2k19 dataset," CoRR, abs/1812.05752, 2018.
+
+- **CLIP (Contrastive Language–Image Pretraining)**: Radford et al., "Learning transferable visual models from natural language supervision," International Conference on Machine Learning (ICML), pages 8748–8763, PMLR, 2021.
