@@ -5,12 +5,10 @@ Bottlenecked, Robust and Adaptable Knowledge of road Events: framework  for expl
 
 - [Introduction](#introduction)
 - [Data Pre-processing](#data-pre-processing)
-- [Model Architecture](#project-structure)
+- [Model Architecture](#model-architecture)
 - [How to Train and Test](#training-and-testing)
     - [Parameters](#explanation-of-the-command-parameters)
-    - [Results and Outputs](#results-and-outputs)
-- [Models and Features](#models-and-features)
-- [Contributions](#contributions)
+- [Results and Outputs](#results-and-outputs)
 - [Collaborations](#collaborations)
 - [Report](#report)
 - [Acknowledgments](#acknowledgments)
@@ -47,7 +45,6 @@ We leverage the **Comma2k19** dataset, which captures diverse commuting scenario
    With [`BRAKE_preprocess.ipynb`](./BRAKE_preprocess.ipynb), additional preprocessing can be applied to the HDF5 files, including compression to reduce file size.
 
 
-## Model Architecture
 ## Model Architecture
 
 BRAKE is a **Concept Bottleneck Model (CBM)** that maps raw sensory input to driving predictions via interpretable intermediate concepts, enhancing transparency and robustness.
@@ -110,7 +107,7 @@ The repository contains additional scripts and resources to reproduce all experi
 
 ## Collaborations
 
-This project was developed by [Leone Fabio](https://github.com/LeoneFabio)[Gabriele Raffaele](https://github.com/Gabriele-Raffaele) and [Giuseppe Vacante](https://github.com/Peppe2212).
+This project was developed by [Leone Fabio](https://github.com/LeoneFabio), [Gabriele Raffaele](https://github.com/Gabriele-Raffaele) and [Giuseppe Vacante](https://github.com/Peppe2212).
 
 ---
 
