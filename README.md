@@ -13,6 +13,7 @@ Bottlenecked, Robust and Adaptable Knowledge of road Events: framework  for expl
 - [Contributions](#contributions)
 - [Collaborations](#collaborations)
 - [Report](#report)
+- [Acknowledgments](#acknowledgments)
 
 
 ---
